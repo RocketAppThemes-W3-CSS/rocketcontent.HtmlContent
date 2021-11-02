@@ -1,0 +1,174 @@
+@inherits RocketContent.Components.RocketContentTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketContent.Components;
+@using DNNrocketAPI.Components;
+@using RocketPortal.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
+
+@{
+    var info = new SimplisityInfo();
+    var articleData = (ArticleLimpet)Model.List.First();
+    if (articleData.Info != null)
+    {
+        info = articleData.Info;
+    }
+    var appThemeSystem = new AppThemeSystemLimpet("rocketcontent");
+    var sessionParams = Model.SessionParamsData;
+    var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
+    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
+}
+
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
+
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+<div class='w3-row'>
+    <div class='w3-col m12 w3-padding'>
+        @{
+            var imgLayoutList = "";
+            for (int i = 0; i < 9; i++)
+            {
+                imgLayoutList += "<img src='" + portalData.EngineUrlWithProtocol + "/DesktopModules/RocketThemes/rocketcontent.HtmlContent/img/Newspaper" + i + ".png' />,";
+            }
+            imgLayoutList = imgLayoutList.TrimEnd(',');
+        }
+        <label>@ResourceKey("HtmlContent.layout")</label>
+        @RadioButtonList(info, "genxml/select/layout", "0,1,2,3,4,5,6,7,8", imgLayoutList, "class='w3-input w3-border' ", "0", "", false, 0)
+    </div>
+</div>
+<div class='w3-row'>
+    <div class='w3-col m5 w3-padding'>
+        <label>@ResourceKey("HtmlContent.heading")</label>		&nbsp;@EditFlag(sessionParams)
+        @TextBox(info, "genxml/lang/genxml/textbox/title", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
+    </div>
+    <div class='w3-col m1 w3-padding' style='min-width: 64px;'>
+        <label>@ResourceKey("HtmlContent.headingstyle")</label>
+        @DropDownList(info, "genxml/select/headingstyle", "h1,h2,h3,h4", "H1,H2,H3,H4", "class='w3-select w3-border ' ", "", false, 0)
+    </div>
+    <div class='w3-col m3 w3-padding w3-center' style='min-width: 160px;'>
+        <label>&nbsp;</label>
+        @RadioButtonList(info, "genxml/select/headingalign", "0,1,2", "<span class='material-icons'>format_align_left</span>,<span class='material-icons'>format_align_center</span>,<span class='material-icons'>format_align_right</span>", "", "1", "", false, 0, "")
+    </div>
+    <div class='w3-col m2 w3-padding w3-margin-top'>
+        <label>@ResourceKey("HtmlContent.hideheading")</label>
+        @CheckBox(info, "genxml/checkbox/hideheading", "", "class='w3-check' ", false, false, 0)
+    </div>
+    <div class='w3-col m1 w3-padding'>
+        <i>ID: </i> @info.ItemID
+    </div>
+</div>
+
+<div class='w3-row'>
+    <div class='w3-col m12 w3-padding'>
+        @EditFlag(sessionParams)
+        <div class='w3-col m12'>
+            @CKEditor4(info, "genxml/lang/genxml/textbox/richtext", true)
+        </div>
+        <div class='w3-col' style='width:0px;height:300px;'></div>
+    </div>
+</div>
+
+
+
+<div class='w3-row w3-padding'>
+
+    <div class="w3-bar w3-theme">
+        <div class="w3-bar-item w3-button tablink imgstablink" onclick="openSection('imgs')">@ResourceKey("DNNrocket.images")</div>
+        <div class="w3-bar-item w3-button tablink docstablink" onclick="openSection('docs')">@ResourceKey("DNNrocket.docs")</div>
+        <div class="w3-bar-item w3-button tablink linkstablink" onclick="openSection('links')">@ResourceKey("DNNrocket.links")</div>
+        <div class="w3-bar-item w3-button tablink htmltexttablink" onclick="openSection('htmltext')">@ResourceKey("HtmlContent.htmltext")</div>
+        <div class="w3-bar-item w3-button tablink htmlvideotablink" onclick="openSection('htmlvideo')">@ResourceKey("HtmlContent.htmlvideo")</div>
+        <div class="w3-bar-item w3-button tablink othertablink" onclick="openSection('other')">@ResourceKey("HtmlContent.extra")</div>
+    </div>
+
+
+    <div id="imgs" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding '>
+            @RenderTemplate("ArticleImages.cshtml", appThemeSystem, Model, true)
+            @RenderTemplate("ArticleImageSelect.cshtml", appThemeSystem, Model, true)
+        </div>
+    </div>
+
+    <div id="docs" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding '>
+            @RenderTemplate("ArticleDocuments.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
+            @RenderTemplate("ArticleDocumentSelect.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
+        </div>
+    </div>
+
+    <div id="links" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding '>
+            @RenderTemplate("ArticleLinks.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
+        </div>
+    </div>
+
+    <div id="htmltext" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding'>
+            @EditFlag(sessionParams)
+            @TextArea(info, "genxml/lang/genxml/textbox/htmltext", " class='w3-input w3-border' rows='8' ", "", true, 0)
+        </div>
+    </div>
+    <div id="htmlvideo" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding'>
+            @EditFlag(sessionParams)
+            @TextArea(info, "genxml/lang/genxml/textbox/htmlvideo", " class='w3-input w3-border' rows='8' ", "", true, 0)
+        </div>
+    </div>
+
+    <div id="other" class='w3-row sectionname' style="display:none">
+
+    </div>
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        var sectionName = simplisity_getCookieValue('sectionName');
+        if ((typeof sectionName === 'undefined') || sectionName === '') {
+            sectionName = 'htmltext';
+        }
+        openSection(sectionName);
+
+        $('#summary').trigger('onkeyup');
+        $('#text').trigger('onkeyup');
+
+    });
+
+
+    function openSection(sectionName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("sectionname");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        $(".tablink").each(function (index) {
+            $(this).removeClass('w3-theme-d5');
+        });
+
+        document.getElementById(sectionName).style.display = "block";
+
+        $('.' + sectionName + 'tablink').addClass('w3-theme-d5');
+
+        simplisity_setCookieValue('sectionName', sectionName);
+
+        // so the hidden one gets adjusted
+        $('#summary').trigger('onkeyup');
+        $('#text').trigger('onkeyup');
+
+    }
+
+    function languageChange() {
+        $('.langchangesave').trigger("click");
+    }
+
+
+
+</script>
+
+
