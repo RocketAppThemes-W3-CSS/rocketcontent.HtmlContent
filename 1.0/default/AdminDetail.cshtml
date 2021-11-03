@@ -57,33 +57,32 @@
         @CheckBox(info, "genxml/checkbox/hideheading", "", "class='w3-check' ", false, false, 0)
     </div>
     <div class='w3-col m1 w3-padding'>
-        <i>ID: </i> @info.ItemID
     </div>
 </div>
-
-<div class='w3-row'>
-    <div class='w3-col m12 w3-padding'>
-        @EditFlag(sessionParams)
-        <div class='w3-col m12'>
-            @CKEditor4(info, "genxml/lang/genxml/textbox/richtext", true)
-        </div>
-        <div class='w3-col' style='width:0px;height:300px;'></div>
-    </div>
-</div>
-
 
 
 <div class='w3-row w3-padding'>
 
     <div class="w3-bar w3-theme">
-        <div class="w3-bar-item w3-button tablink imgstablink" onclick="openSection('imgs')">@ResourceKey("DNNrocket.images")</div>
-        <div class="w3-bar-item w3-button tablink docstablink" onclick="openSection('docs')">@ResourceKey("DNNrocket.docs")</div>
-        <div class="w3-bar-item w3-button tablink linkstablink" onclick="openSection('links')">@ResourceKey("DNNrocket.links")</div>
-        <div class="w3-bar-item w3-button tablink htmltexttablink" onclick="openSection('htmltext')">@ResourceKey("HtmlContent.htmltext")</div>
-        <div class="w3-bar-item w3-button tablink htmlvideotablink" onclick="openSection('htmlvideo')">@ResourceKey("HtmlContent.htmlvideo")</div>
-        <div class="w3-bar-item w3-button tablink othertablink" onclick="openSection('other')">@ResourceKey("HtmlContent.extra")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink htmltablink" onclick="openSection('html')">@ResourceKey("DNNrocket.html")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink imgstablink" onclick="openSection('imgs')">@ResourceKey("DNNrocket.images")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink docstablink" onclick="openSection('docs')">@ResourceKey("DNNrocket.docs")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink linkstablink" onclick="openSection('links')">@ResourceKey("DNNrocket.links")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink htmltexttablink" onclick="openSection('htmltext')">@ResourceKey("HtmlContent.htmltext")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink htmlvideotablink" onclick="openSection('htmlvideo')">@ResourceKey("HtmlContent.htmlvideo")</div>
+        <div class="w3-bar-item w3-bottombar w3-hover-grey w3-padding tablink othertablink" onclick="openSection('other')">@ResourceKey("HtmlContent.extra")</div>
     </div>
 
+
+    <div id="html" class='w3-row sectionname' style="display:none">
+        <div class='w3-col m12 w3-padding'>
+            @EditFlag(sessionParams)
+            <div class='w3-col m12'>
+                @CKEditor4(info, "genxml/lang/genxml/textbox/richtext", true)
+            </div>
+            <div class='w3-col' style='width:0px;height:300px;'></div>
+        </div>
+    </div>
 
     <div id="imgs" class='w3-row sectionname' style="display:none">
         <div class='w3-col m12 w3-padding '>
@@ -94,14 +93,14 @@
 
     <div id="docs" class='w3-row sectionname' style="display:none">
         <div class='w3-col m12 w3-padding '>
-            @RenderTemplate("ArticleDocuments.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
-            @RenderTemplate("ArticleDocumentSelect.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
+            @RenderTemplate("ArticleDocuments.cshtml", appThemeSystem, Model, true)
+            @RenderTemplate("ArticleDocumentSelect.cshtml", appThemeSystem, Model, true)
         </div>
     </div>
 
     <div id="links" class='w3-row sectionname' style="display:none">
         <div class='w3-col m12 w3-padding '>
-            @RenderTemplate("ArticleLinks.cshtml", "/DesktopModules/DNNrocket/RocketMod/", "config-w3", Model, "1.0", true)
+            @RenderTemplate("ArticleLinks.cshtml", appThemeSystem, Model, true)
         </div>
     </div>
 
@@ -129,9 +128,9 @@
 <script>
     $(document).ready(function () {
 
-        var sectionName = simplisity_getCookieValue('sectionName');
-        if ((typeof sectionName === 'undefined') || sectionName === '') {
-            sectionName = 'htmltext';
+        var sectionName = localStorage.getItem('sectiontabs');
+        if ((typeof sectionName === 'undefined') || sectionName === '' || sectionName === null) {
+            sectionName = "html";
         }
         openSection(sectionName);
 
@@ -142,32 +141,19 @@
 
 
     function openSection(sectionName) {
-        var i, x, tablinks;
-        x = document.getElementsByClassName("sectionname");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        $(".tablink").each(function (index) {
-            $(this).removeClass('w3-theme-d5');
-        });
 
-        document.getElementById(sectionName).style.display = "block";
 
-        $('.' + sectionName + 'tablink').addClass('w3-theme-d5');
-
-        simplisity_setCookieValue('sectionName', sectionName);
+        $('.sectionname').hide();
+        $('.tablink').removeClass("w3-border-black");
+        $('#' + sectionName).show();
+        $('.' + sectionName + 'tablink').addClass("w3-border-black");
+        localStorage.setItem('sectiontabs', sectionName);
 
         // so the hidden one gets adjusted
         $('#summary').trigger('onkeyup');
         $('#text').trigger('onkeyup');
 
     }
-
-    function languageChange() {
-        $('.langchangesave').trigger("click");
-    }
-
-
 
 </script>
 
