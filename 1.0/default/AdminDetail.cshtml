@@ -33,21 +33,26 @@
     </div>
     <div class="w3-quarter">
 
-        <div class="w3-row w3-theme-action simplisity_click" s-cmd="remote_addrow" s-fields='{"dataref":"@articleData.DataRef"}'>
-            <div class=" w3-padding w3-button ">
-                @ButtonText(ButtonTypes.add)
-            </div>
-        </div>
-        <div class="w3-row">
-            <div class="w3-bar-block w3-light-grey  w3-small w3-mobile" style="width:100%">
-                @foreach (var articleRow in articleData.GetRows())
-                {
-                    <div class="w3-bar-item w3-button w3-padding simplisity_click" style="" s-cmd="remote_edit" s-fields='{"key":"@articleRow.Info.GetXmlProperty("genxml/config/key")","dataref":"@articleData.DataRef"}'>@(rowlp) : @articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</div>
-                    rowlp += 1;
-                }
-            </div>
-        </div>
-        </div>
+        <table class="w3-table w3-bordered w3-hoverable">
+            <thead>
+                <tr class="w3-theme-action simplisity_click" s-cmd="remote_addrow" s-fields='{"dataref":"@articleData.DataRef"}' style="cursor:pointer;">
+                    <th>@ButtonText(ButtonTypes.add)</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @foreach (var articleRow in articleData.GetRows())
+            {
+                <tr style="cursor:pointer;">
+                    <td class="simplisity_click" s-cmd="remote_edit" s-fields='{"key":"@articleRow.Info.GetXmlProperty("genxml/config/key")","dataref":"@articleData.DataRef"}'><b>@(rowlp) : @articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</b></td>
+                    <td class="simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"key":"@articleRow.Info.GetXmlProperty("genxml/config/key")","dataref":"@articleData.DataRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</td>
+                </tr>
+                rowlp += 1;
+            }
+
+        </table>
+
+    </div>
 </div>
 
 
