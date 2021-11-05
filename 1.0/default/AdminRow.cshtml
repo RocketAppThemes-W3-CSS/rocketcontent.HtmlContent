@@ -26,45 +26,14 @@
 @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
 
 <!-- require Key for saving -->
-@HiddenField(info, "genxml/config/key")
+@HiddenField(info, "genxml/config/rowkey")
+@HiddenField(info, "genxml/lang/genxml/config/rowkeylang", "", articleRowData.RowKey)
 
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 
-<div class='w3-row'>
-    <div class='w3-col m12 w3-padding'>
-        @{
-            var imgLayoutList = "";
-            for (int i = 0; i < 9; i++)
-            {
-                imgLayoutList += "<img src='" + portalData.EngineUrlWithProtocol + "/DesktopModules/RocketThemes/rocketcontent.HtmlContent/img/Newspaper" + i + ".png' />,";
-            }
-            imgLayoutList = imgLayoutList.TrimEnd(',');
-        }
-        <label>@ResourceKey("HtmlContent.layout")</label>
-        @RadioButtonList(info, "genxml/select/layout", "0,1,2,3,4,5,6,7,8", imgLayoutList, "class='w3-input w3-border' ", "0", "", false, 0)
-    </div>
+<div class='w3-row w3-xlarge w3-padding'>
+    @info.GetXmlProperty("genxml/lang/genxml/textbox/title")
 </div>
-<div class='w3-row'>
-    <div class='w3-col m5 w3-padding'>
-        <label>@ResourceKey("HtmlContent.heading")</label>		&nbsp;@EditFlag(sessionParams)
-        @TextBox(info, "genxml/lang/genxml/textbox/title", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
-    </div>
-    <div class='w3-col m1 w3-padding' style='min-width: 64px;'>
-        <label>@ResourceKey("HtmlContent.headingstyle")</label>
-        @DropDownList(info, "genxml/select/headingstyle", "h1,h2,h3,h4", "H1,H2,H3,H4", "class='w3-select w3-border ' ", "", false, 0)
-    </div>
-    <div class='w3-col m3 w3-padding w3-center' style='min-width: 160px;'>
-        <label>&nbsp;</label>
-        @RadioButtonList(info, "genxml/select/headingalign", "0,1,2", "<span class='material-icons'>format_align_left</span>,<span class='material-icons'>format_align_center</span>,<span class='material-icons'>format_align_right</span>", "", "1", "", false, 0, "")
-    </div>
-    <div class='w3-col m2 w3-padding w3-margin-top'>
-        <label>@ResourceKey("HtmlContent.hideheading")</label>
-        @CheckBox(info, "genxml/checkbox/hideheading", "", "class='w3-check' ", false, false, 0)
-    </div>
-    <div class='w3-col m1 w3-padding'>
-    </div>
-</div>
-
 
 <div class='w3-row w3-padding'>
 
@@ -80,6 +49,38 @@
 
 
     <div id="html" class='w3-row sectionname' style="display:none">
+        <div class='w3-row w3-padding'>
+            @{
+                var imgLayoutList = "";
+                for (int i = 0; i < 9; i++)
+                {
+                    imgLayoutList += "<img src='" + portalData.EngineUrlWithProtocol + "/DesktopModules/RocketThemes/rocketcontent.HtmlContent/img/Newspaper" + i + ".png' />,";
+                }
+                imgLayoutList = imgLayoutList.TrimEnd(',');
+            }
+            <label>@ResourceKey("HtmlContent.layout")</label>
+            @RadioButtonList(info, "genxml/select/layout", "0,1,2,3,4,5,6,7,8", imgLayoutList, "class='w3-input w3-border' ", "0", "", false, 0)
+        </div>
+        <div class='w3-row'>
+            <div class='w3-col m5 w3-padding'>
+                <label>@ResourceKey("HtmlContent.heading")</label>		&nbsp;@EditFlag(sessionParams)
+                @TextBox(info, "genxml/lang/genxml/textbox/title", " class='w3-input w3-border' autocomplete='off' ", "", true, 0)
+            </div>
+            <div class='w3-col m1 w3-padding' style='min-width: 64px;'>
+                <label>@ResourceKey("HtmlContent.headingstyle")</label>
+                @DropDownList(info, "genxml/select/headingstyle", "h1,h2,h3,h4", "H1,H2,H3,H4", "class='w3-select w3-border ' ", "", false, 0)
+            </div>
+            <div class='w3-col m3 w3-padding w3-center' style='min-width: 160px;'>
+                <label>&nbsp;</label>
+                @RadioButtonList(info, "genxml/select/headingalign", "0,1,2", "<span class='material-icons'>format_align_left</span>,<span class='material-icons'>format_align_center</span>,<span class='material-icons'>format_align_right</span>", "", "1", "", false, 0, "")
+            </div>
+            <div class='w3-col m2 w3-padding w3-margin-top'>
+                <label>@ResourceKey("HtmlContent.hideheading")</label>
+                @CheckBox(info, "genxml/checkbox/hideheading", "", "class='w3-check' ", false, false, 0)
+            </div>
+            <div class='w3-col m1 w3-padding'>
+            </div>
+        </div>
         <div class='w3-col m12 w3-padding'>
             @EditFlag(sessionParams)
             <div class='w3-col m12'>

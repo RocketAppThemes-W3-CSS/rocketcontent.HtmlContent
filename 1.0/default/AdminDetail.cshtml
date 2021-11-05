@@ -9,18 +9,8 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 
 @{
-    var info = new SimplisityInfo();
-    var articleData = (ArticleLimpet)Model.List.First();
-    if (articleData.Info != null)
-    {
-        info = articleData.Info;
-    }
-    var appThemeSystem = new AppThemeSystemLimpet("rocketcontent");
-    var sessionParams = Model.SessionParamsData;
     var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
     var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
-    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
-    var rowlp = 1;
 }
 
 @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
@@ -32,28 +22,6 @@
         @RenderTemplate("AdminRow.cshtml", appTheme, Model, true)
     </div>
     <div class="w3-quarter">
-
-        <table class="w3-table w3-bordered w3-hoverable">
-            <thead>
-                <tr class="w3-theme-action simplisity_click" s-cmd="remote_addrow" s-fields='{"dataref":"@articleData.DataRef"}' style="cursor:pointer;">
-                    <th>@ButtonText(ButtonTypes.add)</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            @foreach (var articleRow in articleData.GetRows())
-            {
-                <tr style="cursor:pointer;">
-                    <td class="simplisity_click" s-cmd="remote_edit" s-fields='{"key":"@articleRow.Info.GetXmlProperty("genxml/config/key")","dataref":"@articleData.DataRef"}'><b>@(rowlp) : @articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</b></td>
-                    <td class="simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"key":"@articleRow.Info.GetXmlProperty("genxml/config/key")","dataref":"@articleData.DataRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</td>
-                </tr>
-                rowlp += 1;
-            }
-
-        </table>
-
+        @RenderTemplate("AdminRowSelect.cshtml", appTheme, Model, true)
     </div>
 </div>
-
-
-
