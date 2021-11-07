@@ -16,8 +16,6 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
 
-<div class="wrapper_fadein" style="display:none;">
-
     @foreach (var articleRowData in articleData.GetRows())
     {
         var info = articleRowData.Info;
@@ -229,10 +227,3 @@
 
     }
 
-</div>
-
-<script>
-    $(document).ready(function () {
-        $('.wrapper_fadein').fadeIn();
-    });
-</script>
