@@ -139,7 +139,7 @@
     <value>Images</value>
   </data>
   <data name="docs.Text" xml:space="preserve">
-    <value />
+    <value>Documents</value>
   </data>
   <data name="links.Text" xml:space="preserve">
     <value>Links</value>
@@ -152,5 +152,8 @@
   </data>
   <data name="headingalign.Text" xml:space="preserve">
     <value>Heading Align</value>
+  </data>
+  <data name="hide.Text" xml:space="preserve">
+    <value>Hide</value>
   </data>
 </root>

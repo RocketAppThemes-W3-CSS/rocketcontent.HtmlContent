@@ -16,214 +16,232 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
 
-    @foreach (var articleRowData in articleData.GetRows())
+@foreach (var articleRowData in articleData.GetRows())
+{
+    var info = articleRowData.Info;
+    var layout = info.GetXmlPropertyInt("genxml/select/layout");
+    var hStyle = info.GetXmlProperty("genxml/select/headingstyle");
+    var headingHide = info.GetXmlPropertyBool("genxml/checkbox/hideheading");
+    var hideRow = info.GetXmlPropertyBool("genxml/checkbox/hiderow");
+
+
+<div class="w3-row" rowkey="@articleRowData.RowKey">
+
+    @if (!hideRow)
     {
-        var info = articleRowData.Info;
-        var layout = info.GetXmlPropertyInt("genxml/select/layout");
-        var hStyle = info.GetXmlProperty("genxml/select/headingstyle");
-        var headingHide = info.GetXmlPropertyBool("genxml/checkbox/hideheading");
 
-        <div class="w3-row" rowkey="@articleRowData.RowKey">
-
-            @if (!headingHide)
+        if (!headingHide)
+        {
+            var headingalignvalue = info.GetXmlPropertyInt("genxml/select/headingalign");
+            var headingalign = "";
+            if (headingalignvalue == 1)
             {
-                var headingalignvalue = info.GetXmlPropertyInt("genxml/select/headingalign");
-                var headingalign = "";
-                if (headingalignvalue == 1)
-                {
-                    headingalign = "w3-center";
-                }
-                if (headingalignvalue == 2)
-                {
-                    headingalign = "w3-right";
-                }
-                if (hStyle == "")
-                {
-                    hStyle = "h1";
-                }
-
-                <div class="w3-padding @(headingalign)">
-                    <@(hStyle)>
-                        @info.GetXmlProperty("genxml/lang/genxml/textbox/title")
-                    </@(hStyle)>
-                </div>
+                headingalign = "w3-center";
+            }
+            if (headingalignvalue == 2)
+            {
+                headingalign = "w3-right";
+            }
+            if (hStyle == "")
+            {
+                hStyle = "h1";
             }
 
-            <div class="w3-container">
+            <div class="w3-padding @(headingalign)">
+                <@(hStyle)>
+                    @info.GetXmlProperty("genxml/lang/genxml/textbox/title")
+                </@(hStyle)>
+            </div>
+        }
 
-                @if (layout == 0)
-                {
+        <div class="w3-container">
+
+            @if (layout == 0)
+            {
+                <div class="w3-row">
                     @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                }
-                @if (layout == 1)
-                {
-                    var i = articleRowData.GetImage(0);
-                    <img style='float: left;' class="w3-margin" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                }
-                @if (layout == 2)
-                {
-                    var i = articleRowData.GetImage(0);
-                    <img style='float: right;' class="w3-margin" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                }
-                @if (layout == 3)
-                {
-                    var i = articleRowData.GetImage(0);
-                    <img style='float: left;' class="w3-margin" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                    var i2 = articleRowData.GetImage(1);
-                    <img style='float: right;' class="w3-margin" src='@ThumbnailImageWebsiteDomainUrl(i2.RelPath, i2.Width, i2.Height)' />
-                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                }
-                @if (layout == 4)
-                {
-                    var imageList = articleRowData.GetImages();
-                    foreach (var i in imageList)
-                    {
-                        <div class="w3-col m3 w3-padding">
-                            <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                        </div>
-                    }
-                    <div class="w3-row">
+                </div>
+            }
+            @if (layout == 1)
+            {
+                var i = articleRowData.GetImage(0);
+                <div class="w3-row">
+                    <div class="w3-col m3 l2 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%" />
+                    </div>
+                    <div class="w3-col m9 l10 w3-padding">
                         @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
                     </div>
-                }
-                @if (layout == 5)
-                {
-                    <div class="w3-row">
+                </div>
+            }
+            @if (layout == 2)
+            {
+                var i = articleRowData.GetImage(0);
+                <div class="w3-row">
+                    <div class="w3-col m9 l10 w3-padding">
                         @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
                     </div>
-                    var imageList = articleRowData.GetImages();
-                    foreach (var i in imageList)
-                    {
-                        <div class="w3-col m3 w3-padding">
-                            <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                        </div>
-                    }
-                }
-                @if (layout == 6)
-                {
-                    <div class="w3-container">
-                        <div class="w3-quarter">
-                            @{
-                                var imageList = articleRowData.GetImages();
-                                foreach (var i in imageList)
-                                {
-                                    <div class="w3-row w3-padding">
-                                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                                    </div>
-                                }
-                            }
-                        </div>
-                        <div class="w3-threequarter">
-                            @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                        </div>
+                    <div class="w3-col m3 l2 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%" />
                     </div>
-                }
-                @if (layout == 7)
-                {
-                    <div class="w3-container">
-                        <div class="w3-threequarter">
-                            @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                        </div>
-                        <div class="w3-quarter">
-                            @{
-                                var imageList = articleRowData.GetImages();
-                                foreach (var i in imageList)
-                                {
-                                    <div class="w3-row w3-padding">
-                                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                }
-                @if (layout == 8)
-                {
-                    <div class="w3-container">
-                        <div class="w3-quarter">
-                            @{
-                                var lp = 0;
-                                var imageList = articleRowData.GetImages();
-                            }
-                            @foreach (var i in imageList)
-                            {
-                                if (lp % 2 == 0)
-                                {
-                                    <div class="w3-row w3-padding">
-                                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' />
-                                    </div>
-                                }
-                                lp += 1;
-                            }
-                        </div>
-                        <div class="w3-half">
-                            @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
-                        </div>
-                        <div class="w3-quarter">
-                            @{
-                                lp = 0;
-                                var imageList2 = articleRowData.GetImages();
-                            }
-                            @foreach (var i2 in imageList2)
-                            {
-                                if (lp % 2 == 1)
-                                {
-                                    <div class="w3-row w3-padding">
-                                        <img src='@ThumbnailImageWebsiteDomainUrl(i2.RelPath, i2.Width, i2.Height)' />
-                                    </div>
-                                }
-                                lp += 1;
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
-
-            @if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext") != "")
-            {
-                <div class='w3-container w3-center'>
-                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext"))
                 </div>
             }
-
-            @* ----- Document Gallery: BEGIN ------------------------------------------ *@
-            <div class="w3-container">
-                <div class="w3-bar-block w3-light-grey ">
-                    @foreach (var articleDoc in articleRowData.GetDocs())
-                    {
-                        if (!articleDoc.Hidden && articleDoc.RelPath != "")
-                        {
-                            <a href="@(articleDoc.RelPath)" class="w3-bar-item w3-button w3-center w3-margin-bottom" download>@articleDoc.Name</a>
-                        }
-                    }
-                </div>
-            </div>
-            @* ----- Document Gallery: END ------------------------------------------ *@
-
-            @if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo") != "")
+            @if (layout == 3)
             {
-                <div class='w3-container w3-center'>
-                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo"))
+                var i = articleRowData.GetImage(0);
+                var i2 = articleRowData.GetImage(1);
+                <div class="w3-row">
+                    <div class="w3-col m3 l2 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%" />
+                    </div>
+                    <div class="w3-col m6 l8 w3-padding">
+                        @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
+                    </div>
+                    <div class="w3-col m3 l2 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i2.RelPath, i2.Width, i2.Height)' style="width:100%" />
+                    </div>
                 </div>
             }
-
-            @* ----- Link Gallery: START ------------------------------------------ *@
-            <div class="w3-container">
-                <div class="w3-bar-block w3-light-grey">
-                    @foreach (var articleLink in articleRowData.Getlinks())
-                    {
-                        if (!articleLink.Hidden)
-                        {
-                            <a href="@(articleLink.Url)" target="@(articleLink.Target)" class="w3-bar-item w3-button w3-center">@articleLink.Name</a>
-                        }
-                    }
+            @if (layout == 4)
+            {
+                var imageList = articleRowData.GetImages();
+                foreach (var i in imageList)
+                {
+                    <div class="w3-col m3 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%;" />
+                    </div>
+                }
+                <div class="w3-row">
+                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
                 </div>
-            </div>
-            @* ----- Link Gallery: END -------------------------------------------- *@
+            }
+            @if (layout == 5)
+            {
+                <div class="w3-row">
+                    @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
+                </div>
+                var imageList = articleRowData.GetImages();
+                foreach (var i in imageList)
+                {
+                    <div class="w3-col m3 w3-padding">
+                        <img src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%;" />
+                    </div>
+                }
+            }
+            @if (layout == 6)
+            {
+                <div class="w3-row">
+                    <div class="w3-quarter w3-padding">
+                        @{
+                            var imageList = articleRowData.GetImages();
+                            foreach (var i in imageList)
+                            {
+                                <img class="w3-padding" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%;" />
+                            }
+                        }
+                    </div>
+                    <div class="w3-threequarter w3-padding">
+                        @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
+                    </div>
+                </div>
+            }
+            @if (layout == 7)
+            {
+                <div class="w3-row">
+                    <div class="w3-threequarter w3-padding">
+                        @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
+                    </div>
+                    <div class="w3-quarter w3-padding">
+                        @{
+                            var imageList = articleRowData.GetImages();
+                            foreach (var i in imageList)
+                            {
+                                <img class="w3-padding" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%;" />
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            @if (layout == 8)
+            {
+                <div class="w3-row">
+                    <div class="w3-quarter w3-padding">
+                        @{
+                            var lp = 0;
+                            var imageList = articleRowData.GetImages();
+                        }
+                        @foreach (var i in imageList)
+                        {
+                            if (lp % 2 == 0)
+                            {
+                                <img class="w3-padding" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, i.Width, i.Height)' style="width:100%;" />
+                            }
+                            lp += 1;
+                        }
+                    </div>
+                    <div class="w3-half w3-padding">
+                        @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/richtext"))
+                    </div>
+                    <div class="w3-quarter w3-padding">
+                        @{
+                            lp = 0;
+                            var imageList2 = articleRowData.GetImages();
+                        }
+                        @foreach (var i2 in imageList2)
+                        {
+                            if (lp % 2 == 1)
+                            {
+                                <img class="w3-padding" src='@ThumbnailImageWebsiteDomainUrl(i2.RelPath, i2.Width, i2.Height)' style="width:100%;" />
+                            }
+                            lp += 1;
+                        }
+                    </div>
+                </div>
+            }
+        </div>
 
+        if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext") != "")
+        {
+            <div class='w3-container w3-center'>
+                @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext"))
+            </div>
+        }
+
+        @* ----- Document Gallery: START ------------------------------------------ *@
+        <div class="w3-container">
+            <div class="w3-bar-block w3-light-grey ">
+                @foreach (var articleDoc in articleRowData.GetDocs())
+                {
+                    if (!articleDoc.Hidden && articleDoc.RelPath != "")
+                    {
+                        <a href="@(articleDoc.RelPath)" class="w3-bar-item w3-button w3-center w3-margin-bottom" download>@articleDoc.Name</a>
+                    }
+                }
+            </div>
+        </div>
+
+        @* ----- Html Video: START ------------------------------------------ *@
+        if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo") != "")
+        {
+            <div class='w3-container w3-center'>
+                @HtmlOf(info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo"))
+            </div>
+        }
+
+        @* ----- Link Gallery: START ------------------------------------------ *@
+        <div class="w3-container">
+            <div class="w3-bar-block w3-light-grey">
+                @foreach (var articleLink in articleRowData.Getlinks())
+                {
+                    if (!articleLink.Hidden)
+                    {
+                        <a href="@(articleLink.Url)" target="@(articleLink.Target)" class="w3-bar-item w3-button w3-center">@articleLink.Name</a>
+                    }
+                }
+            </div>
         </div>
 
     }
+</div>
+}
 
