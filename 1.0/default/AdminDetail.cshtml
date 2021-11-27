@@ -9,11 +9,11 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 
 @{
-    var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
+    var articleData = (ArticleLimpet)Model.List.First();
     var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
 }
 
-@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + articleData.AdminAppThemeFolder + "/resx")
 
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 

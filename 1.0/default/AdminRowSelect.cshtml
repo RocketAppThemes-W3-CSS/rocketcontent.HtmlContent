@@ -10,16 +10,15 @@
 
 @{
     var articleData = (ArticleLimpet)Model.List.First();
-    var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
 }
 
-@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + articleData.AdminAppThemeFolder + "/resx")
 
-<div class="w3-theme-action w3-margin-bottom w3-row w3-padding simplisity_click" s-cmd="remote_addrow" s-fields='{"moduleref":"@(remoteModule.ModuleRef)"}' style="cursor:pointer;">
+<div class="w3-theme-action w3-margin-bottom w3-row w3-padding simplisity_click" s-cmd="remote_addrow" s-fields='{"dataref":"@articleData.DataRef"}' style="cursor:pointer;">
     @ButtonText(ButtonTypes.add)
 </div>
 
-<div class="w3-hide simplisity_click" id="rowsort" s-cmd="remote_sortrows" s-fields='{"moduleref":"@remoteModule.ModuleRef"}'></div>
+<div class="w3-hide simplisity_click" id="rowsort" s-cmd="remote_sortrows" s-fields='{"dataref":"@articleData.DataRef"}'></div>
 
 <ul id="rowselectdata" class="w3-ul">
 
@@ -27,8 +26,8 @@
     {
         <li class="@articleData.ImageListName w3-row w3-display-container w3-padding w3-border-0" style="list-style-type: none;">
             <div id="@articleRow.RowKey" class="w3-row w3-card w3-padding w3-theme-l3 w3-small selectedrow" style="cursor:pointer;">
-                <div class="w3-col m10 simplisity_click" rowkey="@articleRow.RowKey" s-cmd="remote_edit" s-fields='{"selectkey":"@articleRow.RowKey","moduleref":"@remoteModule.ModuleRef"}'><b>@articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</b>&nbsp;</div>
-                <div class="w3-col m2 simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"selectkey":"@articleRow.RowKey","moduleref":"@remoteModule.ModuleRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</div>
+                <div class="w3-col m10 simplisity_click" rowkey="@articleRow.RowKey" s-cmd="remote_edit" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}'><b>@articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</b>&nbsp;</div>
+                <div class="w3-col m2 simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</div>
             </div>
         </li>
     }
