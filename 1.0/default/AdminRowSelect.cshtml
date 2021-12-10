@@ -26,10 +26,10 @@
 
     @foreach (var articleRow in articleData.GetRows())
     {
-        <li class="@articleData.ImageListName w3-row w3-display-container w3-padding w3-border-0" style="list-style-type: none;">
+        <li class="w3-row w3-display-container w3-padding w3-border-0" style="list-style-type: none;">
             <div id="@articleRow.RowKey" class="w3-row w3-card w3-padding w3-theme-l3 w3-small selectedrow" style="cursor:pointer;">
-                <div class="w3-col m10 simplisity_click" rowkey="@articleRow.RowKey" s-cmd="remote_edit" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}'><b>@articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")</b>&nbsp;</div>
-                <div class="w3-col m2 simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</div>
+                <span class="simplisity_click" rowkey="@articleRow.RowKey" s-cmd="remote_edit" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}'>@ButtonIcon(ButtonTypes.edit)&nbsp;<b>@articleRow.Info.GetXmlProperty("genxml/lang/genxml/textbox/title")&nbsp;</b></span>
+                <span class="w3-right w3-button w3-align-right simplisity_confirmclick" s-confirm="@ResourceKey("RC.removerow")" s-cmd="remote_removerow" s-fields='{"selectkey":"@articleRow.RowKey","dataref":"@articleData.DataRef"}' style="width:60px;">@(ButtonIcon(ButtonTypes.remove))</span>
             </div>
         </li>
     }
