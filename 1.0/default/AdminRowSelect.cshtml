@@ -5,17 +5,27 @@
 @using DNNrocketAPI.Components;
 @using RocketPortal.Components;
 
-@SecuritySiteKey(Model.SessionParamsData)
-
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 
 @{
+    var info = new SimplisityInfo();
+    var appThemeSystem = new AppThemeSystemLimpet("rocketcontent");
+    var sessionParams = Model.SessionParamsData;
     var articleData = (ArticleLimpet)Model.List.First();
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
+    var articleRowData = (ArticleRowLimpet)Model.GetDataObject("articlerow");
     var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
+    var portalData = new PortalLimpet(articleData.PortalId);
+
+    if (articleRowData.Info != null)
+    {
+        info = articleRowData.Info;
+    }
+
 }
 
-@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + articleData.AdminAppThemeFolder + "/resx")
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + articleData.Organisation + "/" + articleData.AdminAppThemeFolder + "/resx")
 
 <div class="w3-theme-action w3-margin-bottom w3-row w3-padding simplisity_click" s-cmd="remote_addrow" s-fields='{"dataref":"@articleData.DataRef","moduleref":"@remoteModule.ModuleRef"}' style="cursor:pointer;">
     @ButtonText(ButtonTypes.add)

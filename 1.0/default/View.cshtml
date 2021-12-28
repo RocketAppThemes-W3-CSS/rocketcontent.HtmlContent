@@ -8,15 +8,18 @@
 @SecuritySiteKey(Model.SessionParamsData)
 
 @{
+    var appThemeSystem = new AppThemeSystemLimpet("rocketcontent");
+    var sessionParams = Model.SessionParamsData;
     var articleData = (ArticleLimpet)Model.List.First();
-    var sessionParams = (SessionParams)Model.SessionParamsData;
+    var appTheme = (AppThemeLimpet)Model.GetDataObject("apptheme");
     var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
-    var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
+    var portalData = new PortalLimpet(articleData.PortalId);
+    var globalSettings = new SystemGlobalData();
 }
 
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
-@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + remoteModule.AppThemeFolder + "/resx")
+@AddProcessData("resourcepath", "/DesktopModules/RocketThemes/" + articleData.Organisation + "/" + articleData.AdminAppThemeFolder + "/resx")
 
 @foreach (var articleRowData in articleData.GetRows())
 {
