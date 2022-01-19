@@ -33,9 +33,7 @@
 
     hbsDict.Remove("data");
     hbsDict.Add("data", info);
-
-    @RenderXml(info)
-    
+   
 <div class="w3-row" rowkey="@articleRowData.RowKey">
 
     @if (!hideRow)
@@ -65,46 +63,42 @@
             </div>
         }
 
-        <div class="w3-container">
-
-            @if (layout == 0)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout0.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 1)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout1.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 2)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout2.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 3)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout3.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 4)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout4.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 5)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout5.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 6)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout6.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 7)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout7.hbs", remoteModule.ModuleRef)
-            }
-            @if (layout == 8)
-            {
-                @RenderHandleBars(hbsDict, appTheme, "layout8.hbs", remoteModule.ModuleRef)
-            }
-
-        </div>
+        if (layout == 0)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout0.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 1)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout1.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 2)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout2.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 3)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout3.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 4)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout4.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 5)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout5.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 6)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout6.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 7)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout7.hbs", remoteModule.ModuleRef)
+        }
+        if (layout == 8)
+        {
+            @RenderHandleBars(hbsDict, appTheme, "layout8.hbs", remoteModule.ModuleRef)
+        }
 
         if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext") != "")
         {
