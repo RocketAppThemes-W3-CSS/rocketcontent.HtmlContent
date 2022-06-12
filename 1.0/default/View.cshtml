@@ -31,15 +31,35 @@
     var headingHide = info.GetXmlPropertyBool("genxml/checkbox/hideheading");
     var hideRow = info.GetXmlPropertyBool("genxml/checkbox/hiderow");
 
+    var swclass = "";
+    var wclass = "w3-row";
+    if (info.GetXmlPropertyInt("genxml/textbox/rowwidth") > 0)
+    {
+        swclass = "w3-col m" + (info.GetXmlPropertyInt("genxml/textbox/rowwidth") / 2).ToString();
+        wclass = "w3-col m" + info.GetXmlPropertyInt("genxml/textbox/rowwidth");
+    }
+
     hbsDict.Remove("data");
     hbsDict.Add("data", info);
+
+    var bg = "";
+    if (info.GetXmlPropertyBool("genxml/checkbox/backgroundcolor"))
+    {
+        bg = "w3-light-grey";
+    }
    
-<div class="w3-row" rowkey="@articleRowData.RowKey">
+<div class="w3-row @bg " rowkey="@articleRowData.RowKey">
 
     @if (!hideRow)
     {
+        if (swclass != "")
+        {
+            <div class="@swclass">&nbsp;</div>            
+        }
 
-        if (!headingHide)
+        <div class="@wclass">
+
+        @if (!headingHide)
         {
             var headingalignvalue = info.GetXmlPropertyInt("genxml/select/headingalign");
             var headingalign = "";
@@ -56,66 +76,77 @@
                 hStyle = "h1";
             }
 
-            <div class="w3-padding @(headingalign)">
-                <@(hStyle)>
-                    @info.GetXmlProperty("genxml/lang/genxml/textbox/title")
-                </@(hStyle)>
-            </div>
+                if (info.GetXmlProperty("genxml/lang/genxml/textbox/title") != "")
+                {
+                <div class="w3-padding @(headingalign)">
+                    <@(hStyle)>
+                        @info.GetXmlProperty("genxml/lang/genxml/textbox/title")
+                    </@(hStyle)>                    
+                </div>
+                }
         }
 
-        if (layout == 0)
+        @if (layout == 0)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout0.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 1)
+        @if (layout == 1)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout1.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 2)
+        @if (layout == 2)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout2.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 3)
+        @if (layout == 3)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout3.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 4)
+        @if (layout == 4)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout4.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 5)
+        @if (layout == 5)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout5.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 6)
+        @if (layout == 6)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout6.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 7)
+        @if (layout == 7)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout7.hbs", remoteModule.ModuleRef)
         }
-        if (layout == 8)
+        @if (layout == 8)
         {
             @RenderHandleBars(hbsDict, appTheme, "layout8.hbs", remoteModule.ModuleRef)
         }
 
-        if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext") != "")
+        @if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmltext") != "")
         {
             @RenderHandleBars(hbsDict, appTheme, "htmltext.hbs", remoteModule.ModuleRef)
         }
-        if (articleRowData.GetDocList().Count > 0)
+        @if (articleRowData.GetDocList().Count > 0)
         {
             @RenderHandleBars(hbsDict, appTheme, "documents.hbs", remoteModule.ModuleRef)
         }
-        if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo") != "")
+        @if (info.GetXmlProperty("genxml/lang/genxml/textbox/htmlvideo") != "")
         {
             @RenderHandleBars(hbsDict, appTheme, "htmlvideo.hbs", remoteModule.ModuleRef)
         }
-        if (articleRowData.Getlinks().Count > 0)
+        @if (articleRowData.Getlinks().Count > 0)
         {
             @RenderHandleBars(hbsDict, appTheme, "links.hbs", remoteModule.ModuleRef)
         }
+
+        </div>
+
+        if (swclass != "")
+        {
+            <div class="@swclass">&nbsp;</div>            
+        }
+
     }
 </div>
 }
